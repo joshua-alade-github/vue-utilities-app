@@ -42,7 +42,9 @@ export default {
     }
   },
   mounted() {
+      if (localStorage.getItem("tasks") !== null) {
         this.tasks = JSON.parse(localStorage.getItem("tasks"));
+      }
         this.tableLayout = JSON.parse(localStorage.getItem("tableLayout"));
     },
   methods: {
