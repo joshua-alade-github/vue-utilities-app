@@ -3,53 +3,30 @@
     <h2 class="text-center mt-5 mb-5">ToDo</h2>
 
     <div class="d-flex">
+      <button v-show="tableLayout" @click="changeLayout">
+        <i class="fas fa-th"></i>
+      </button>
+      <button v-show="!tableLayout" @click="changeLayout">
+        <i class="fas fa-list-ol"></i>
+      </button>
       <input v-model="task" type="text" placeholder="Enter task" class="form-control">
       <button @click="submitTask" class="btn btn-warning rounded-0">Submit</button>
     </div>
 
-    <table class="table table-success table-striped table-hover mt-3 table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">Task</th>
-          <th scope="col">Status</th>
-          <th scope="col" class="text-center">#</th>
-          <th scope="col" class="text-center">#</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(task, index) in tasks" :key="index">
-          <td :class="{'finished': task.status === 'Finished'}">{{task.name}}</td>
-          <td style="width: 100px">
-            <div @click="changeStatus(index)" class="pointer"
-              :class="{
-                'text-danger': task.status === 'To-do',
-                'text-success': task.status === 'Finished',
-                'inProg': task.status === 'In-progress',
-              }"
-            >
-              <span>{{task.status}}</span>
-            </div>
-          </td>
-          <td>
-            <div @click="editTask(index)" class="text-center pointer">
-              <span class="fa fa-pen"></span>
-            </div>
-          </td>
-          <td>
-            <div @click="deleteTask(index)" class="text-center pointer">
-              <span class="fa fa-trash"></span>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <TableTodo v-show="tableLayout" />
+    <GridTodo v-show="!tableLayout" />
   </div>
 </template>
 
 <script>
-
+import TableTodo from "@/components/TableTodo"
+import GridTodo from "@/components/GridTodo"
 export default {
   name: 'Todo',
+  components: {
+    TableTodo,
+    GridTodo,
+  },
   data() {
     return {
       task: '',
@@ -61,12 +38,18 @@ export default {
           status: 'To-do',
         }
       ],
+      tableLayout: true,
     }
   },
   mounted() {
         this.tasks = JSON.parse(localStorage.getItem("tasks"));
+        this.tableLayout = JSON.parse(localStorage.getItem("tableLayout"));
     },
   methods: {
+    changeLayout() {
+      this.tableLayout = !this.tableLayout
+      localStorage.setItem("tableLayout", JSON.stringify(this.tableLayout));
+    },
     submitTask() {
       if (this.task.length === 0) return;
       
@@ -101,15 +84,15 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  .pointer:hover {
+<style lang="scss">
+  .to-do-pointer:hover {
     cursor: pointer;
     background: rgb(136, 175, 157);
   }
-  .finished {
+  .to-do-finished {
     text-decoration: line-through;
   }
-  .inProg{
+  .to-do-inProg{
     color: rgb(255, 136, 0);
   }
 </style>
