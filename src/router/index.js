@@ -12,11 +12,7 @@ const routes = [
     path: '/calculator',
     name: 'Calculator',
     component: Calculator
-  },
-  {
-    path: '/*',
-    redirect: { name: 'Calculator' }
-  },
+  }
 ]
 
 const router = createRouter({
