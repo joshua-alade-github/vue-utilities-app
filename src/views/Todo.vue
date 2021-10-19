@@ -45,7 +45,9 @@ export default {
       if (localStorage.getItem("tasks") !== null) {
         this.tasks = JSON.parse(localStorage.getItem("tasks"));
       }
+      if (localStorage.getItem("tableLayout") !== null) {
         this.tableLayout = JSON.parse(localStorage.getItem("tableLayout"));
+      }
     },
   methods: {
     changeLayout() {
