@@ -1,6 +1,6 @@
 module.exports = {
     devServer: {
-      public: 'https://vue-utilities-app.onrender.com/'
+      public: 'vue-utilities-app.onrender.com'
     }
   }
   
